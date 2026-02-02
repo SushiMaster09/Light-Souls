@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.15f, groundLayer);
     }
