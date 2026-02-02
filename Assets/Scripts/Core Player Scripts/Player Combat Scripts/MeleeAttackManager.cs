@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAttackManager : PlayerController
+public class MeleeAttackManager : MonoBehaviour
 {
     [Header("Melee Attack Manager Stats")]
     public float defaultForce = 300f;
