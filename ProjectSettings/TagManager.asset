@@ -11,7 +11,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Background Blur
   - 
   - 
   - 
@@ -44,14 +44,26 @@ TagManager:
   - name: Background2
     uniqueID: 3682417811
     locked: 0
+  - name: BackFog2
+    uniqueID: 4170122507
+    locked: 0
   - name: Background1
     uniqueID: 2151913627
+    locked: 0
+  - name: BackFog1
+    uniqueID: 3645164789
     locked: 0
   - name: Ground
     uniqueID: 2292616917
     locked: 0
+  - name: ForeFog1
+    uniqueID: 1444412393
+    locked: 0
   - name: Foreground1
     uniqueID: 694889413
+    locked: 0
+  - name: ForeFog2
+    uniqueID: 616990899
     locked: 0
   - name: Foreground2
     uniqueID: 2454349749

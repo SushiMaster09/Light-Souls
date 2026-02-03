@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,17 +9,20 @@ public class CameraFollowObject : MonoBehaviour
     [SerializeField] private Transform playerTransform;
 
     [Header("Flip Stats")]
-    [SerializeField] private float flipRotationTime = 0.5f;
+    [SerializeField] private float flipScreenTime = 0.5f;
 
-    private Coroutine turnCoroutine;
+    private Coroutine cameraFaceDirection;
 
     private PlayerController player;
+
+    private CinemachineFramingTransposer framingTransposer;
 
     private bool isFacingRight;
 
     private void Awake()
     {
         player = playerTransform.gameObject.GetComponent<PlayerController>();
+        framingTransposer = CameraManager.instance.currentVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
     void Update()
@@ -27,38 +31,39 @@ public class CameraFollowObject : MonoBehaviour
         isFacingRight = player.isFacingRight;
     }
 
-    public void CallTurn()
+    public void CallCameraFaceDirection()
     {
-        turnCoroutine = StartCoroutine(FlipYLerp());
+        cameraFaceDirection = StartCoroutine(FacingDirectionBias());
     }
 
-    private IEnumerator FlipYLerp()
+    private IEnumerator FacingDirectionBias()
     {
-        float startRotation = transform.eulerAngles.y;
-        float endRotationAmount = DetermineEndRotation();
-        float yRotation = 0f;
+        float startPoint = framingTransposer.m_ScreenX;
+        float endPoint = DetermineEndPoint();
 
+        float lerpedAmount = 0f;
         float elapsedTime = 0f;
-        while (elapsedTime < flipRotationTime)
+        while (elapsedTime < flipScreenTime)
         {
             elapsedTime += Time.deltaTime;
 
-            yRotation = Mathf.Lerp(startRotation, endRotationAmount, (elapsedTime / flipRotationTime));
-            transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
-
+            lerpedAmount = Mathf.Lerp(startPoint, endPoint, (elapsedTime / flipScreenTime));
+            framingTransposer.m_ScreenX = lerpedAmount;
             yield return null;
         }
     }
 
-    private float DetermineEndRotation()
+    private float DetermineEndPoint()
     {
-        if (isFacingRight)
+
+        if (player.isFacingRight)
         {
-            return 180f;
+            return 0.45f;
         }
+
         else
         {
-            return 0f;
+            return 0.55f;
         }
     }
 }

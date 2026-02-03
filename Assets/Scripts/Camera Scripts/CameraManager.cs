@@ -20,7 +20,7 @@ public class CameraManager : MonoBehaviour
 
     private Coroutine lerpYPanCoroutine;
 
-    private CinemachineVirtualCamera currentVirtualCamera;
+    [HideInInspector] public CinemachineVirtualCamera currentVirtualCamera;
     private CinemachineFramingTransposer framingTransposer;
 
     private float normYPanAmount;

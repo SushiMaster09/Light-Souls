@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontal;
 
-    public bool isFacingRight = true;
+    [HideInInspector] public bool isFacingRight = true;
 
     private bool isJumping;
     private float gravityScale;
@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
         cameraFollowObject = cameraFollowGameobject.GetComponent<CameraFollowObject>();
 
         fallSpeedYDampingChangeThreshold = CameraManager.instance.fallSpeedYDampingChangeThreshold;
+
+        cameraFollowObject.CallCameraFaceDirection();
     }
 
     private void Update()
@@ -217,7 +219,7 @@ public class PlayerController : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
 
-            cameraFollowObject.CallTurn();
+            cameraFollowObject.CallCameraFaceDirection();
         }
     }
 
