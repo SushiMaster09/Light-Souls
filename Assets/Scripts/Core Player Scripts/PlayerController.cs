@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHangTimeThreshold = 2f;
     [SerializeField] private float jumpHangGravityMultiplier = 5f;
 
-    private float horizontal;
+    [SerializeField] private float horizontal;
 
     [HideInInspector] public bool isFacingRight = true;
 
@@ -47,10 +47,11 @@ public class PlayerController : MonoBehaviour
     private CameraFollowObject cameraFollowObject;
     private float fallSpeedYDampingChangeThreshold;
 
-    [Header("Checks")]
+    [Header("References")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Animator animator;
 
     private Rigidbody2D rb;
 
@@ -78,6 +79,8 @@ public class PlayerController : MonoBehaviour
         else { rb.gravityScale = gravityScale; }
 
         horizontal = Input.GetAxisRaw("Horizontal");
+
+        animator.SetFloat("Horizontal", Mathf.Abs(horizontal));
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
@@ -107,6 +110,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.gravityScale = gravityScale * jumpHangGravityMultiplier;
         }
+
+        animator.SetBool("IsJumping", isJumping);
+        animator.SetBool("IsGrounded", IsGrounded());
 
         if (rb.velocity.y < fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling)
         {
